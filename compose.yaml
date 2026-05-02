@@ -1,12 +1,28 @@
 services:
   db:
+    container_name: database
     image: mysql:9.7.0
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=symfony_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      - symfony
   web:
+    container_name: web
     build: .
     ports:
-      - 8080:80
+      - "8080:80"
+    networks:
+      - symfony
+
+volumes:
+  database:
+
+networks:
+  symfony:
